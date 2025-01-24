@@ -1,0 +1,34 @@
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - 'v*'  # Triggers only when a tag matching 'v*' is pushed
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Checkout the code
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    # Setup Node.js
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16' # Specify the Node.js version
+        registry-url: 'https://registry.npmjs.org/'
+
+    # Install dependencies and build the project (if needed)
+    - name: Install dependencies and build
+      run: |
+        npm ci
+        npm run build
+
+    # Publish to npm
+    - name: Publish to npm
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: npm publish --access public
