@@ -23,7 +23,9 @@ interface ImportCsvDialogEachItemProps {
   idsConflicting: string[];
 }
 
-export const ImportCsvDialogEachItem = (props: ImportCsvDialogEachItemProps) => {
+export const ImportCsvDialogEachItem = (
+  props: ImportCsvDialogEachItemProps
+) => {
   const {
     disableImportNew,
     disableImportOverwrite,
@@ -41,11 +43,19 @@ export const ImportCsvDialogEachItem = (props: ImportCsvDialogEachItemProps) => 
     idsConflicting,
   } = props;
   const translate = translateWrapper();
+  let idInfo = "id";
+  switch (resourceName) {
+    case "etablissements":
+      idInfo = "nom";
+      break;
 
+    default:
+      break;
+  }
   return (
     <SharedDialogWrapper
       title={translate("csv.dialogDecide.title", {
-        id: currentValue && currentValue.id,
+        id: currentValue && currentValue[idInfo],
         resource: resourceName,
       })}
       subTitle={translate("csv.dialogCommon.subtitle", {
@@ -56,33 +66,37 @@ export const ImportCsvDialogEachItem = (props: ImportCsvDialogEachItemProps) => 
       open={openAskDecide}
       handleClose={handleClose}
     >
-      {isLoading && <SharedLoader loadingTxt={translate("csv.loading")}></SharedLoader>}
+      {isLoading && (
+        <SharedLoader loadingTxt={translate("csv.loading")}></SharedLoader>
+      )}
       {!isLoading && (
         <div>
-          <p
-            style={{ fontFamily: "sans-serif", margin: "0" }}
-            dangerouslySetInnerHTML={{
-              __html: translate("csv.dialogCommon.conflictCount", {
-                resource: resourceName,
-                conflictingCount: idsConflicting && idsConflicting.length,
-              }),
-            }}
-          ></p>
+          {idsConflicting.length > 0 && (
+            <p
+              style={{ fontFamily: "sans-serif", margin: "0" }}
+              dangerouslySetInnerHTML={{
+                __html: translate("csv.dialogDecide.remainingItems", {
+                  resource: resourceName,
+                  conflictingCount: idsConflicting && idsConflicting.length,
+                }),
+              }}
+            ></p>
+          )}
           <List>
             <SharedDialogButton
               disabled={disableImportOverwrite}
-              onClick={handleAskDecideReplace}
+              onClick={() => handleAskDecideReplace()}
               icon={<Done htmlColor="#29c130" />}
               label={translate("csv.dialogDecide.buttons.replaceRow", {
-                id: currentValue && currentValue.id,
+                id: currentValue && currentValue[idInfo],
               })}
             />
-            <SharedDialogButton
+            {/* <SharedDialogButton
               disabled={disableImportNew}
               onClick={handleAskDecideAddAsNew}
               icon={<Add htmlColor="#3a88ca" />}
               label={translate("csv.dialogDecide.buttons.addAsNewRow")}
-            />
+            /> */}
             <SharedDialogButton
               onClick={handleAskDecideSkip}
               icon={<Undo htmlColor="black" />}
