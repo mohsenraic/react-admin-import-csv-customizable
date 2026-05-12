@@ -51,12 +51,12 @@ jobs:
         path: node_modules
         key: ${{ runner.OS }}-build-${{ hashFiles('package.json') }}
     - name: Download build-lib
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
         name: build-lib
         path: lib
     - name: Download build-esm
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v4
       with:
         name: build-esm
         path: esm
