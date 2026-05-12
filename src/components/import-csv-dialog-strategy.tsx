@@ -11,6 +11,8 @@ interface ImportCsvDialogStrategyProps {
   resourceName: string;
   fileName: string;
   count: number;
+  newElementsCount: number;
+  updatesCount: number;
   handleClose: () => any;
   handleReplace: () => any;
   handleSkip: () => any;
@@ -30,9 +32,13 @@ interface MessageState {
   messageHtml: string;
 }
 
-export const ImportCsvDialogStrategy = (props: ImportCsvDialogStrategyProps) => {
+export const ImportCsvDialogStrategy = (
+  props: ImportCsvDialogStrategyProps,
+) => {
   const {
     count,
+    newElementsCount,
+    updatesCount,
     disableImportOverwrite,
     resourceName,
     fileName,
@@ -75,9 +81,21 @@ export const ImportCsvDialogStrategy = (props: ImportCsvDialogStrategyProps) => 
       open={open}
       handleClose={handleClose}
     >
-      {isLoading && <SharedLoader loadingTxt={messages.loadingTxt}></SharedLoader>}
+      {isLoading && (
+        <SharedLoader loadingTxt={messages.loadingTxt}></SharedLoader>
+      )}
       {idsConflicting && idsConflicting.length > 0 && !isLoading && (
         <div>
+          <p
+            style={{
+              fontFamily: "sans-serif",
+              margin: "0 0 8px 0",
+              fontWeight: 600,
+            }}
+          >
+            {translate("csv.dialogCommon.newElements")} {newElementsCount} -{" "}
+            {translate("csv.dialogCommon.updateElements")} {updatesCount}
+          </p>
           <p
             style={{ fontFamily: "sans-serif", margin: "0" }}
             dangerouslySetInnerHTML={{

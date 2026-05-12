@@ -1,6 +1,6 @@
 {
   "name": "react-admin-import-csv-customizable",
-  "version": "4.0.20",
+  "version": "4.0.22",
   "description": "CSV import button for react-admin",
   "repository": "https://github.com/benwinding/react-admin-import-csv",
   "homepage": "https://github.com/benwinding/react-admin-import-csv",

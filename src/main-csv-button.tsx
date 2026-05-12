@@ -76,6 +76,10 @@ export const MainCsvImport = (props: any) => {
 
   const [file, setFile] = React.useState<File | null>();
   const fileName = (file && file.name) + "";
+  const updatesCount = idsConflicting ? idsConflicting.length : 0;
+  const newElementsCount = values.filter(
+    (v) => v.id === undefined || v.id === null,
+  ).length;
 
   React.useEffect(() => {
     let mounted = true;
@@ -107,7 +111,7 @@ export const MainCsvImport = (props: any) => {
         dataProvider,
         csvItems,
         resourceName,
-        disableGetMany
+        disableGetMany,
       );
       mounted && setIdsConflicting(collidingIds);
       const hasCollidingIds = !!collidingIds.length;
@@ -121,10 +125,10 @@ export const MainCsvImport = (props: any) => {
       const collidingIdsNumbersSet = new Set();
 
       const collidingIdsAsNumbers = collidingIds.map((id) =>
-        parseFloat(id + "")
+        parseFloat(id + ""),
       );
       const allCollidingIdsAreNumbers = collidingIdsAsNumbers.every((id) =>
-        isFinite(id)
+        isFinite(id),
       );
       if (allCollidingIdsAreNumbers) {
         collidingIdsAsNumbers.map((id) => collidingIdsNumbersSet.add(id));
@@ -148,7 +152,7 @@ export const MainCsvImport = (props: any) => {
           showDialog(
             "Importation terminée",
             "Importation de " + rowLength + " élément(s) terminée",
-            DialogType.SUCCESS
+            DialogType.SUCCESS,
           );
         mounted && !hasCollidingIds && handleClose();
       })
@@ -182,7 +186,7 @@ export const MainCsvImport = (props: any) => {
       resourceName,
       vals,
       preCommitCallback,
-      postCommitCallback
+      postCommitCallback,
     );
   }
 
@@ -194,7 +198,7 @@ export const MainCsvImport = (props: any) => {
       resourceName,
       vals,
       preCommitCallback,
-      postCommitCallback
+      postCommitCallback,
     );
   }
 
@@ -221,7 +225,7 @@ export const MainCsvImport = (props: any) => {
       showDialog(
         "Importation terminée",
         "Importation de " + values.length + " élément(s) terminée",
-        DialogType.SUCCESS
+        DialogType.SUCCESS,
       );
   };
 
@@ -232,7 +236,7 @@ export const MainCsvImport = (props: any) => {
       await new Promise((res) => setTimeout(res, 1000));
       const collidingIdsSet = new Set(idsConflicting.map((id) => id));
       const valuesColliding = values.filter((item) =>
-        collidingIdsSet.has(item.id)
+        collidingIdsSet.has(item.id),
       );
       await updateRows(valuesColliding);
       handleClose();
@@ -321,6 +325,8 @@ export const MainCsvImport = (props: any) => {
         resourceName={resourceName}
         fileName={fileName}
         count={values && values.length}
+        newElementsCount={newElementsCount}
+        updatesCount={updatesCount}
         handleClose={handleClose}
         handleReplace={handleReplace}
         handleSkip={handleSkip}

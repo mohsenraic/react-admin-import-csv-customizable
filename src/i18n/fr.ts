@@ -13,9 +13,11 @@ export default {
         'Le document n\'a pas pu être analysé en tant que fichier "csv"',
     },
     dialogCommon: {
-      subtitle: "Importation de %{count} élément(s) de %{fileName}",
+      newElements: "Nouveau :",
+      updateElements: "Mise à jour :",
+      subtitle: "Importation de %{count} élément(s) depuis %{fileName}",
       conflictCount:
-        "Plusieurs enregistrements <strong>(%{conflictingCount})</strong>  dans la base de données possèdent les mêmes identifiants. Quelle action souhaitez-vous effectuer ?",
+        "Plusieurs élément(s) <strong>(%{conflictingCount})</strong>  dans la base de données possèdent les mêmes identifiants. Quelle action souhaitez-vous effectuer ?",
       buttons: {
         cancel: "Annuler",
       },
